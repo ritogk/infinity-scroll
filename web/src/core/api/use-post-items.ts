@@ -1,19 +1,22 @@
 import { UseApiClientKey, type UseApiClientType } from '@/core/api/api-client'
 import type { Components } from '@/types/openapi'
-import { GET_LOCATIONS } from '@/core/api/query-key'
+import { GET_ITEMS } from '@/core/api/query-key'
 import { inject } from 'vue'
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
 
-export const usePatchLocations = () => {
+export const usePostItems = () => {
   const useApiClient = inject(UseApiClientKey) as UseApiClientType
   const client = useApiClient.getClient()
   const queryClient = useQueryClient()
 
   const mutation = useMutation({
-    mutationFn: (params: { id: number; item: Components.Schemas.UpdateLocationDto }) =>
-      client.LocationsController_update(params.id, params.item),
+    mutationFn: (data: Components.Schemas.CreateItemDto) =>
+      // dataがなぜ任意?
+      // client.ItemsController_create()
+      client.ItemsController_create(null, data),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: [GET_LOCATIONS], exact: true })
+      // こいつ重そう・・・・単品で更新するようにしたほうがかるそう・・・・
+      await queryClient.invalidateQueries({ queryKey: [GET_ITEMS], exact: true })
     }
   })
   return mutation

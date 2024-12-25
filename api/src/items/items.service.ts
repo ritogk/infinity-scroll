@@ -18,29 +18,13 @@ export class ItemsService {
     return await this.itemRepository.save(item);
   }
 
-  async findAll(
-    minLatitude: number,
-    minLongitude: number,
-    maxLatitude: number,
-    maxLongitude: number,
-  ): Promise<Item[]> {
-    if (minLatitude && minLongitude && maxLatitude && maxLongitude) {
-      const items = await this.itemRepository
-        .createQueryBuilder('item')
-        .where(
-          'ST_Intersects(ST_MakeEnvelope(:minLongitude, :minLatitude, :maxLongitude, :maxLatitude, :srid), item.point)',
-          {
-            minLongitude: minLongitude,
-            minLatitude: minLatitude,
-            maxLongitude: maxLongitude,
-            maxLatitude: maxLatitude,
-            srid: 4326,
-          },
-        )
-        .getMany();
-      return items;
-    }
-
+  async findAll(): Promise<Item[]> {
+    // for (let i = 0; i < 10000; i++) {
+    //   console.log(i);
+    //   await this.itemRepository.save({
+    //     text: 'text' + i,
+    //   });
+    // }
     return this.itemRepository.find();
   }
 

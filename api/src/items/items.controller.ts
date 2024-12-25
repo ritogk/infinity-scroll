@@ -65,12 +65,7 @@ export class ItemsController {
     @Query('maxLatitude') maxLatitude: number,
     @Query('maxLongitude') maxLongitude: number,
   ): Promise<Item[]> {
-    return this.itemsService.findAll(
-      minLatitude,
-      minLongitude,
-      maxLatitude,
-      maxLongitude,
-    );
+    return this.itemsService.findAll();
   }
 
   @ApiOkResponse({

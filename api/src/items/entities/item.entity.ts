@@ -14,7 +14,7 @@ export class Item {
   id: number;
 
   @Column({
-    type: 'boolean',
+    type: 'text',
     default: false,
   })
   @ApiProperty({
